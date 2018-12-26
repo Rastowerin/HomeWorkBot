@@ -32,6 +32,16 @@ while True:
                                                                        ts=ts)).json()
  update = long_poll['updates']
  if update[0][0] == 4:
+     if update[0][0] == 4 and '!дз' in update[0][6] and '!!дз' not in update[0][6] and update[0][6] != '!дз':
+         subject = update[0][6].split(': ')[1]
+         if '%s' % subject in homework:
+             write_msg(update[0][3], homework['%s' % subject])
+     elif update[0][0] == 4 and update[0][3] == 321056236 and '!!дз' in update[0][6] and update[0][6] != '!!дз':
+         subject = update[0][6].split(': ')[1]
+         print(subject)
+         if '%s' % subject in homework:
+             homework['%s' % subject] = update[0][6].split(': ')[2]
+             print(homework['%s' % subject])
         print(update)
         user_id = update[0][3]
         user_name = vk_bot.method('users.get', {'user_ids': user_id})
