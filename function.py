@@ -1,6 +1,6 @@
 import vk_api
 import random
-from Config import *
+from config import *
 
 vk_bot = vk_api.VkApi(token=ACCESS_TOKEN)
 long_poll = vk_bot.method('messages.getLongPollServer', {'need_pts': 1, 'lp_version': 3})

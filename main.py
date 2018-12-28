@@ -1,10 +1,12 @@
 import random
 import datetime
-d = datetime.date.today()
-tomm = datetime.datetime.isoweekday(d) + 1
 import requests
 import vk_api
+import function
 from config import *
+
+d = datetime.date.today()
+tomm = datetime.datetime.isoweekday(d) + 1
 
 vk_bot = vk_api.VkApi(token=TOKEN)
 long_poll = vk_bot.method('messages.getLongPollServer', {'need_pts': 1, 'lp_version': 3})
