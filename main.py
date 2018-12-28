@@ -6,23 +6,10 @@ import requests
 import vk_api
 from config import *
 
-
-def write_msg(user_id, text):
-    vk_bot.method('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000)})
-
-
 vk_bot = vk_api.VkApi(token=TOKEN)
 long_poll = vk_bot.method('messages.getLongPollServer', {'need_pts': 1, 'lp_version': 3})
 server, key, ts = long_poll['server'], long_poll['key'], long_poll['ts']
 print("готов к работе")
-
- #+ str(long_poll))
-def write_msg_attach(user_id, text, att_url):
-    vk_bot.method('messages.send',
-                  {'user_id': user_id,
-                   'attachment': att_url,
-                   'message': text,
-                   'random_id': random.randint(0, 1000)})
 
 while True:
  long_poll = requests.get(
