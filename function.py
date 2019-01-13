@@ -20,10 +20,10 @@ def homework_file():
         return data
 
 def homework_new_file(subject, new_homework):
+    homework = homework_file()
+    homework[subject] = new_homework
+    homework = str(homework).replace('\'', '\"')
     with codecs.open("C:\\Users\\Rost\\PycharmProjects\\HomeWorkBot\\subjects.txt", "w", "utf-8-sig") as test:
-        homework = homework_file()
-        homework[subject] = new_homework
-        homework = str(homework).replace('\'', '\"')
         test.write(homework)
         test.close()
 

@@ -6,8 +6,11 @@ d = datetime.date.today()
 tomm = datetime.datetime.isoweekday(d) + 1
 homework = function.homework_file()
 data = function.homework_file()
+print(data)
 
 while True:
+    new_ts = function.vk_bot.method('messages.getLongPollServer', {'need_pts': 1, 'lp_version': 3})
+    function.ts = new_ts['ts']
     long_poll = requests.get(
         'https://{server}?act={act}&key={key}&ts={ts}&wait=15000'.format(server=function.server,
                                                                        act='a_check',
@@ -24,9 +27,11 @@ while True:
             homework = update[0][6].split(': ')[2]
             print(subject)
             if '%s' % subject in data:
+                print(1)
                 function.homework_new_file(subject, homework)
                 print([subject])
-        print(update)
+            else:
+                print(0)
         user_id = update[0][3]
         user_name = function.vk_bot.method('users.get', {'user_ids': user_id})
         if 'расписание' in update[0][6]:
