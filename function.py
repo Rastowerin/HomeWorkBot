@@ -2,6 +2,7 @@ import vk_api
 import random
 import codecs
 import json
+import datetime
 from config import *
 
 def write_msg(user_id, text):
@@ -18,6 +19,13 @@ def homework_file():
     with codecs.open("subjects.txt", "r", "utf-8-sig") as json_data:
         data = json.load(json_data)
         return data
+
+def today():
+    day = datetime.datetime.today().weekday()
+    with codecs.open("schedule.txt", "r", "utf-8-sig") as json_data:
+        data = json.load(json_data)
+        today = data[day]
+        return today
 
 def homework_new_file(subject, new_homework):
     homework = homework_file()
