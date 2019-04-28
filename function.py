@@ -24,8 +24,10 @@ def today():
     day = datetime.datetime.today().weekday()
     with codecs.open("schedule.txt", "r", "utf-8-sig") as json_data:
         data = json.load(json_data)
-        today = data[day]
+        today = data[str(day)]
         return today
+
+def
 
 def homework_new_file(subject, new_homework):
     homework = homework_file()

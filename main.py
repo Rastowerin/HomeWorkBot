@@ -1,10 +1,15 @@
 import requests
 import function
+import datetime
 
-homework = function.homework_file()
-data = function.homework_file()
+day = str(datetime.datetime.today())
+print(str(day.split(' ')[1].split('.')[0]))
 
 while True:
+    homework = function.homework_file()
+    print(homework)
+    data = function.homework_file()
+    print(data)
     new_ts = function.vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
     function.ts = new_ts['ts']
     long_poll = requests.get(
@@ -18,13 +23,10 @@ while True:
             command = element['object']['text'].split(': ')[0]
             subject = element['object']['text'].split(': ')[1]
             if command == '!дз' and '%s' % subject in function.homework:
-                print('test')
-                function.write_msg(element['object']['from_id'], function.homework['%s' % subject])
+                function.write_msg(element['object']['from_id'], homework['%s' % subject])
             elif command == '!!дз':
                 subject = element['object']['text'].split(': ')[1]
                 homework = element['object']['text'].split(': ')[2]
-                print(subject)
-                print(homework)
                 if '%s' % subject in data:
                     function.homework_new_file(subject, homework)
                     print([subject])
