@@ -20,15 +20,6 @@ def homework_file():
         data = json.load(json_data)
         return data
 
-def today():
-    day = datetime.datetime.today().weekday()
-    with codecs.open("schedule.txt", "r", "utf-8-sig") as json_data:
-        data = json.load(json_data)
-        today = data[str(day)]
-        return today
-
-def
-
 def homework_new_file(subject, new_homework):
     homework = homework_file()
     homework[subject] = new_homework
@@ -36,6 +27,25 @@ def homework_new_file(subject, new_homework):
     with codecs.open("subjects.txt", "w", "utf-8-sig") as test:
         test.write(homework)
         test.close()
+
+def today():
+    day = str(datetime.datetime.today().weekday())
+    with codecs.open("schedule.txt", "r", "utf-8-sig") as json_data:
+        data = json.load(json_data)
+        today_schedule = data[str(day)]
+        time = (str(str(datetime.datetime.today()).split(' ')[1].split('.')[0]))
+        info = [day, time, today_schedule]
+    return info
+
+def time_check():
+    with codecs.open("subjects.txt", "r", "utf-8-sig") as json_data:
+        subjects = json.load(json_data)
+        print(today())
+        if today()[1] in subjects:
+            print('test')
+            if today()[2][1] != None:
+                print('test1')
+                subjects[today()[2][1]] = None
 
 vk_bot = vk_api.VkApi(token=TOKEN)
 long_poll = vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
