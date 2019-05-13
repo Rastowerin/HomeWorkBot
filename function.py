@@ -3,7 +3,28 @@ import random
 import codecs
 import json
 import datetime
+from threading import Thread
 from config import *
+
+def control():
+    while True:
+        homework = homework_file()
+        command = input()
+        if command == 'reset':
+            for subject in homework:
+                homework[subject] = 'None'
+            homework = str(homework).replace('\'', '\"')
+            with codecs.open("subjects.txt", "w", "utf-8-sig") as file:
+                file.write(homework)
+                file.close()
+            print('homework reseted')
+        elif 'reset' in command and command.split(': ')[1] in homework:
+            homework[command.split(': ')[1]] = 'None'
+            homework = str(homework).replace('\'', '\"')
+            with codecs.open("subjects.txt", "w", "utf-8-sig") as file:
+                file.write(homework)
+                file.close()
+            print('subject reseted                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ')
 
 def write_msg(user_id, text):
     vk_bot.method('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000)})
@@ -24,9 +45,9 @@ def homework_new_file(subject, new_homework):
     homework = homework_file()
     homework[subject] = new_homework
     homework = str(homework).replace('\'', '\"')
-    with codecs.open("subjects.txt", "w", "utf-8-sig") as test:
-        test.write(homework)
-        test.close()
+    with codecs.open("subjects.txt", "w", "utf-8-sig") as file:
+        file.write(homework)
+        file.close()
 
 def today():
     day = str(datetime.datetime.today().weekday())
@@ -40,12 +61,15 @@ def today():
 def time_check():
     with codecs.open("subjects.txt", "r", "utf-8-sig") as json_data:
         subjects = json.load(json_data)
-        print(today())
+        #print(today())
         if today()[1] in subjects:
-            print('test')
+            #print('test')
             if today()[2][1] != None:
-                print('test1')
+                #print('test1')
                 subjects[today()[2][1]] = None
+
+thread = Thread(target=control)
+thread.start()
 
 vk_bot = vk_api.VkApi(token=TOKEN)
 long_poll = vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
