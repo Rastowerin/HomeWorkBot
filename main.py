@@ -2,18 +2,20 @@ import requests
 import function
 import datetime as d
 
+server, key, ts = function.long_poll()
+
 while True:
     try:
         function.time_check()
         homework = function.homework_file()
         data = function.homework_file()
         new_ts = function.vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
-        function.ts = new_ts['ts']
+        ts = new_ts['ts']
         long_poll = requests.get(
-            '{server}?act={act}&key={key}&ts={ts}&wait=15000'.format(server=function.server,
+            '{server}?act={act}&key={key}&ts={ts}&wait=15000'.format(server=server,
                                                                            act='a_check',
-                                                                           key=function.key,
-                                                                           ts=function.ts)).json()
+                                                                           key=key,
+                                                                           ts=ts)).json()
         update = long_poll['updates']
         for element in update:
             if element['type'] == 'message_new':
@@ -44,6 +46,6 @@ while True:
 
     except KeyError:
         if long_poll == {'failed': 2}:
-            None
+            server, key, ts = function.long_poll()
         else:
             print('crushed')
