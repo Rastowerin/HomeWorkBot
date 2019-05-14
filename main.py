@@ -31,7 +31,6 @@ while True:
                     print('%s HomeWorkBot: выбери действие' % str(d.datetime.today())[10: 19])
                 elif element['object']['text'] == 'задать дз' and keyboard_status == 0:
                     function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
-                    function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
                     keyboard_status = 1
                 elif element['object']['text'] in data:
                     if keyboard_status == 0:
@@ -49,13 +48,8 @@ while True:
                     function.write_msg(element['object']['from_id'], 'значение обновлено', function.start_keyboard)
                     print('%s HomeWorkBot: значеие обновлено' % str(d.datetime.today())[10: 19])
                     print('value updated: %s: %s' % (subject, element['object']['text']))
-                        #function.write_msg(element['object']['from_id'], homework['%s' % subject], None)
-                        #print('%s HomeWorkBot: %s' % (str(d.datetime.today())[10: 19], homework['%s' % subject]))
-                    #else:
-                        #function.write_msg(element['object']['from_id'], 'неизвестная команда')
-                        #print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
+                    keyboard_status = 0
                 else:
-                    print(5)
                     function.write_msg(element['object']['from_id'], 'неизвестная команда', function.start_keyboard)
                     print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
 
