@@ -6,6 +6,17 @@ import datetime
 from threading import Thread
 from config import *
 
+with codecs.open("start_keyboard.txt", "r", "utf-8-sig") as json_data:
+    start_keyboard = json.load(json_data)
+start_keyboard = json.dumps(start_keyboard, ensure_ascii=False).encode('utf-8')
+start_keyboard = str(start_keyboard.decode('utf-8'))
+
+with codecs.open("choice_keyboard.txt", "r", "utf-8-sig") as json_data:
+    choice_keyboard = json.load(json_data)
+choice_keyboard = json.dumps(choice_keyboard, ensure_ascii=False).encode('utf-8')
+choice_keyboard = str(choice_keyboard.decode('utf-8'))
+
+
 def control():
     while True:
         homework = homework_file()
@@ -18,16 +29,18 @@ def control():
                 file.write(homework)
                 file.close()
             print('homework reseted')
-        elif 'reset' in command and command.split(': ')[1] in homework:
-            homework[command.split(': ')[1]] = 'None'
+        elif 'reset' in command and command.split(' ')[1] in homework:
+            homework[command.split(' ')[1]] = 'None'
             homework = str(homework).replace('\'', '\"')
             with codecs.open("subjects.txt", "w", "utf-8-sig") as file:
                 file.write(homework)
                 file.close()
-            print('subject reseted                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ')
+                print('subject reseted')
+        else:
+            print('wrong command')
 
-def write_msg(user_id, text):
-    vk_bot.method('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000)})
+def write_msg(user_id, text, keyboard):
+    vk_bot.method('messages.send', {'user_id': user_id, 'message': text, 'random_id': random.randint(0, 1000), 'keyboard': keyboard})
 
 def write_msg_attach(user_id, text, att_url):
     vk_bot.method('messages.send',
@@ -80,4 +93,3 @@ vk_bot = vk_api.VkApi(token=TOKEN)
 homework = homework_file()
 
 print('HomeWorkBot is online')
-print('started in %s' % datetime.datetime.today())

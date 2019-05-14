@@ -1,0 +1,18 @@
+{"one_time": false,
+"buttons":
+[[{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "алгебра"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "геометрия"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "физика"}, "color": "default"}],
+ [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "химия"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "русский язык"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "английский язык"}, "color": "default"}],
+ [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "информатика"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "литература"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "биология"}, "color": "default"}],
+ [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "история"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "обществознание"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "география"}, "color": "default"}],
+ [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "изо"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "физ-ра"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "музыка"}, "color": "default"}],
+ [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "назад"}, "color": "negative"}]]}

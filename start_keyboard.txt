@@ -1,0 +1,4 @@
+{"one_time": false,
+"buttons":
+[[{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "получить дз"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"2\"}", "label": "задать дз"}, "color": "default"}]]}

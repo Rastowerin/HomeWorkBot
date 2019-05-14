@@ -3,6 +3,7 @@ import function
 import datetime as d
 
 server, key, ts = function.long_poll()
+keyboard_status = 0
 
 while True:
     try:
@@ -21,27 +22,41 @@ while True:
             if element['type'] == 'message_new':
                 user = function.vk_bot.method('users.get', {'user_ids': element['object']['from_id']})
                 print('%s %s %s: %s' % (str(d.datetime.today())[10: 19], user[0]['first_name'], user[0]['last_name'], element['object']['text']))
-                if element['object']['text'].split(': ')[0] == '!дз':
-                    subject = str(element['object']['text'].split(': ')[1]).lower()
-                    if subject in function.homework:
-                        function.write_msg(element['object']['from_id'], homework['%s' % subject])
-                        print('%s HomeWorkBot: %s' % (str(d.datetime.today())[10: 19], homework['%s' % subject]))
+                if element['object']['text'] == 'получить дз':
+                    function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
+                    keyboard_status = 0
+                    print('%s HomeWorkBot: выбери предмет' % str(d.datetime.today())[10: 19])
+                elif element['object']['text'] == 'назад':
+                    function.write_msg(element['object']['from_id'], 'выбери действие', function.start_keyboard)
+                    print('%s HomeWorkBot: выбери действие' % str(d.datetime.today())[10: 19])
+                elif element['object']['text'] == 'задать дз' and keyboard_status == 0:
+                    function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
+                    function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
+                    keyboard_status = 1
+                elif element['object']['text'] in data:
+                    if keyboard_status == 0:
+                        function.write_msg(element['object']['from_id'], homework['%s' % element['object']['text']], None)
+                        print('%s HomeWorkBot: %s' % (str(d.datetime.today())[10: 19], homework['%s' % element['object']['text']]))
+                    elif keyboard_status == 1:
+                        function.write_msg(element['object']['from_id'], 'введи текст', None)
+                        print('%s HomeWorkBot: введи текст' % str(d.datetime.today())[10: 19])
+                        subject = element['object']['text']
+                        keyboard_status = 2
                     else:
-                        function.write_msg(element['object']['from_id'], 'неизвестная команда')
-                        print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
-                elif element['object']['text'].split(': ')[0] == '!!дз':
-                    subject = element['object']['text'].split(': ')[1]
-                    homework = element['object']['text'].split(': ')[2]
-                    if '%s' % subject in data:
-                        function.homework_new_file(subject, homework)
-                        function.write_msg(element['object']['from_id'], 'значение обновлено')
-                        print('%s HomeWorkBot: значеие обновлено' % str(d.datetime.today())[10: 19])
-                        print('value updated: %s: %s' % (subject, homework))
-                    else:
-                        user_id = element['object']['from_id']
-                        user_name = function.vk_bot.method('users.get', {'user_ids': user_id})
+                        None
+                elif keyboard_status == 2:
+                    function.homework_new_file(subject, element['object']['text'])
+                    function.write_msg(element['object']['from_id'], 'значение обновлено', function.start_keyboard)
+                    print('%s HomeWorkBot: значеие обновлено' % str(d.datetime.today())[10: 19])
+                    print('value updated: %s: %s' % (subject, element['object']['text']))
+                        #function.write_msg(element['object']['from_id'], homework['%s' % subject], None)
+                        #print('%s HomeWorkBot: %s' % (str(d.datetime.today())[10: 19], homework['%s' % subject]))
+                    #else:
+                        #function.write_msg(element['object']['from_id'], 'неизвестная команда')
+                        #print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
                 else:
-                    function.write_msg(element['object']['from_id'], 'неизвестная команда')
+                    print(5)
+                    function.write_msg(element['object']['from_id'], 'неизвестная команда', function.start_keyboard)
                     print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
 
     except KeyError:
