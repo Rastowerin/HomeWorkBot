@@ -14,9 +14,7 @@ while True:
         ts = new_ts['ts']
         long_poll = requests.get(
             '{server}?act={act}&key={key}&ts={ts}&wait=15000'.format(server=server,
-                                                                           act='a_check',
-                                                                           key=key,
-                                                                           ts=ts)).json()
+                                                                           act='a_check', key=key, ts=ts)).json()
         update = long_poll['updates']
         for element in update:
             if element['type'] == 'message_new':
