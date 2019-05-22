@@ -8,6 +8,7 @@ from config import *
 
 with codecs.open("start_keyboard.txt", "r", "utf-8-sig") as json_data:
     start_keyboard = json.load(json_data)
+    
 start_keyboard = json.dumps(start_keyboard, ensure_ascii=False).encode('utf-8')
 start_keyboard = str(start_keyboard.decode('utf-8'))
 
