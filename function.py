@@ -17,6 +17,10 @@ with codecs.open("choice_keyboard.txt", "r", "utf-8-sig") as json_data:
 choice_keyboard = json.dumps(choice_keyboard, ensure_ascii=False).encode('utf-8')
 choice_keyboard = str(choice_keyboard.decode('utf-8'))
 
+with codecs.open("back_keyboard.txt", "r", "utf-8-sig") as json_data:
+    back_keyboard = json.load(json_data)
+back_keyboard = json.dumps(back_keyboard, ensure_ascii=False).encode('utf-8')
+back_keyboard = str(back_keyboard.decode('utf-8'))
 
 def control():
     while True:
@@ -55,6 +59,8 @@ def homework_file():
         data = json.load(json_data)
         return data
 
+homework = homework_file()
+
 def homework_new_file(subject, new_homework):
     homework = homework_file()
     homework[subject] = new_homework
@@ -73,14 +79,14 @@ def today():
     return info
 
 def time_check():
-    with codecs.open("subjects.txt", "r", "utf-8-sig") as json_data:
-        subjects = json.load(json_data)
-        #print(today())
-        if today()[1] in subjects:
-            #print('test')
-            if today()[2][1] != None:
-                #print('test1')
-                subjects[today()[2][1]] = None
+    today_schedule = {}
+    today_schedule = today()[2]
+    for subject_time in today_schedule:
+        time = homework[today_schedule[subject_time]][1]
+        if homework[today_schedule[subject_time]] != 'None':
+            time = time.split(' ')[1]
+            if time.split(':')[0] > subject_time.split(':')[0] or today()[1].split(':')[0] == subject_time.split(':')[0] and today()[1].split(':')[1] > subject_time.split(':')[1]:
+                homework_new_file(today_schedule[subject_time], 'None')
 
 def long_poll():
     long_poll = vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
@@ -91,6 +97,5 @@ thread = Thread(target=control)
 thread.start()
 
 vk_bot = vk_api.VkApi(token=TOKEN)
-homework = homework_file()
 
 print('HomeWorkBot is online')
