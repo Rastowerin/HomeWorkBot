@@ -78,20 +78,23 @@ def today():
         info = [day, time, today_schedule]
     return info
 
-def time_check():
-    today_schedule = {}
-    today_schedule = today()[2]
-    for subject_time in today_schedule:
-        time = homework[today_schedule[subject_time]][1]
-        if homework[today_schedule[subject_time]] != 'None':
-            time = time.split(' ')[1]
-            if time.split(':')[0] > subject_time.split(':')[0] or today()[1].split(':')[0] == subject_time.split(':')[0] and today()[1].split(':')[1] > subject_time.split(':')[1]:
-                homework_new_file(today_schedule[subject_time], 'None')
-
 def long_poll():
     long_poll = vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
     server, key, ts = long_poll['server'], long_poll['key'], long_poll['ts']
     return server, key, ts
+
+def time_check():
+    today_schedule = {}
+    today_schedule = today()[2]
+    for subject_time in today_schedule:
+        if homework[today_schedule[subject_time]] != 'None':
+            time = homework[today_schedule[subject_time]][1]
+            time = time.split(' ')[1]
+            if time.split(':')[0] > subject_time.split(':')[0] or today()[1].split(':')[0] == subject_time.split(':')[0] and today()[1].split(':')[1] > subject_time.split(':')[1]:
+                homework_new_file(today_schedule[subject_time], 'None')
+
+with codecs.open("schedule.txt", "r", "utf-8-sig") as json_data:
+    day = json.load(json_data)['day']
 
 thread = Thread(target=control)
 thread.start()

@@ -1,5 +1,6 @@
 import requests
 import function
+import codecs
 import datetime as d
 
 server, key, ts = function.long_poll()
@@ -12,9 +13,7 @@ while True:
         data = function.homework_file()
         new_ts = function.vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
         ts = new_ts['ts']
-        long_poll = requests.get(
-            '{server}?act={act}&key={key}&ts={ts}&wait=15000'.format(server=server,
-                                                                           act='a_check', key=key, ts=ts)).json()
+        long_poll = requests.get('%s?act=%s&key=%s&ts=%s&wait=15000' % (server, 'a_check', key, ts)).json()
         update = long_poll['updates']
         for element in update:
             if element['type'] == 'message_new':
@@ -51,6 +50,12 @@ while True:
                 else:
                     function.write_msg(element['object']['from_id'], 'неизвестная команда', function.start_keyboard)
                     print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
+                if function.day != print(d.datetime.today().weekday()):
+                    function.day == d.datetime.today().weekday()
+                    with codecs.open("schedule.txt", "w", "utf-8-sig") as file:
+                        file['day'] = '%s' % d.datetime.today().weekday()
+                        file.write()
+                        file.close()
 
     except KeyError:
         if long_poll == {'failed': 2}:
