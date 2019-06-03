@@ -13,6 +13,6 @@
   {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "обществознание"}, "color": "default"},
   {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "география"}, "color": "default"}],
  [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "изо"}, "color": "default"},
-  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "физультура"}, "color": "default"},
+  {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "физкультура"}, "color": "default"},
   {"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "музыка"}, "color": "default"}],
  [{"action": {"type": "text", "payload": "{\"button\": \"1\"}", "label": "назад"}, "color": "negative"}]]}

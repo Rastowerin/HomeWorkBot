@@ -1,10 +1,13 @@
 import requests
 import function
 import codecs
+import json
 import datetime as d
 
 server, key, ts = function.long_poll()
-keyboard_status = {}
+
+with codecs.open("keyboard_status.txt", "r", "utf-8-sig") as json_data:
+    keyboard_status = json.load(json_data)
 
 while True:
     try:
@@ -19,12 +22,18 @@ while True:
             if element['type'] == 'message_new':
                 user = function.vk_bot.method('users.get', {'user_ids': element['object']['from_id']})
                 print('%s %s %s: %s' % (str(d.datetime.today())[10: 19], user[0]['first_name'], user[0]['last_name'], element['object']['text']))
-                if element['object']['from_id'] not in keyboard_status:
-                    print('%s' % element['object']['from_id'])
-                    print(keyboard_status)
-                    keyboard_status['%s' % element['object']['from_id']] == 0
+                print(keyboard_status)
+                print(element['object']['from_id'])
+                if str(element['object']['from_id']) not in keyboard_status:
+                    keyboard_status['%s' % element['object']['from_id']] = 0
+                    with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as json_data:
+                        json_data.write(str(keyboard_status))
+                        json_data.close()
                     function.write_msg(element['object']['from_id'], 'ты добавлен в список пользователей', function.start_keyboard)
-                elif element['object']['text'] == 'получить дз':
+                    print('%s HomeWorkBot: ты добавлен в список пользователей' % str(d.datetime.today())[10: 19])
+                else:
+                    None
+                if element['object']['text'] == 'получить дз':
                     function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
                     keyboard_status['%s' % element['object']['from_id']] = 0
                     print('%s HomeWorkBot: выбери предмет' % str(d.datetime.today())[10: 19])
@@ -62,7 +71,7 @@ while True:
                     #    file.write(str(file))
                      #   file.close()
 
-    except ZeroDivisionError:
+    except KeyError:
         if long_poll == {'failed': 2}:
             server, key, ts = function.long_poll()
         else:
