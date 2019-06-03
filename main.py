@@ -64,12 +64,6 @@ while True:
                 else:
                     function.write_msg(element['object']['from_id'], 'неизвестная команда', function.start_keyboard)
                     print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
-                #if function.day != print(d.datetime.today().weekday()):
-                 #   function.day == d.datetime.today().weekday()
-                  #  with codecs.open("schedule.txt", "w", "utf-8-sig") as file:
-                   #     file['day'] = '%s' % d.datetime.today().weekday()
-                    #    file.write(str(file))
-                     #   file.close()
 
     except KeyError:
         if long_poll == {'failed': 2}:
