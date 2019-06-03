@@ -17,18 +17,16 @@ while True:
         ts = new_ts['ts']
         long_poll = requests.get('%s?act=%s&key=%s&ts=%s&wait=15000' % (server, 'a_check', key, ts)).json()
         update = long_poll['updates']
-        #function.time_check()
         for element in update:
             if element['type'] == 'message_new':
                 user = function.vk_bot.method('users.get', {'user_ids': element['object']['from_id']})
                 print('%s %s %s: %s' % (str(d.datetime.today())[10: 19], user[0]['first_name'], user[0]['last_name'], element['object']['text']))
-                print(keyboard_status)
                 print(element['object']['from_id'])
                 if str(element['object']['from_id']) not in keyboard_status:
                     keyboard_status['%s' % element['object']['from_id']] = 0
-                    with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as json_data:
-                        json_data.write(str(keyboard_status))
-                        json_data.close()
+                    with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as old_keyboard_status:
+                        old_keyboard_status.write(str(keyboard_status).replace('\'', '\"'))
+                        old_keyboard_status.close()
                     function.write_msg(element['object']['from_id'], 'ты добавлен в список пользователей', function.start_keyboard)
                     print('%s HomeWorkBot: ты добавлен в список пользователей' % str(d.datetime.today())[10: 19])
                 else:
@@ -36,6 +34,9 @@ while True:
                 if element['object']['text'] == 'получить дз':
                     function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
                     keyboard_status['%s' % element['object']['from_id']] = 0
+                    with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as old_keyboard_status:
+                        old_keyboard_status.write(str(keyboard_status).replace('\'', '\"'))
+                        old_keyboard_status.close()
                     print('%s HomeWorkBot: выбери предмет' % str(d.datetime.today())[10: 19])
                 elif element['object']['text'] == 'назад':
                     function.write_msg(element['object']['from_id'], 'выбери действие', function.start_keyboard)
@@ -43,6 +44,9 @@ while True:
                 elif element['object']['text'] == 'задать дз' and keyboard_status['%s' % element['object']['from_id']] == 0:
                     function.write_msg(element['object']['from_id'], 'выбери предмет', function.choice_keyboard)
                     keyboard_status['%s' % element['object']['from_id']] = 1
+                    with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as old_keyboard_status:
+                        old_keyboard_status.write(str(keyboard_status).replace('\'', '\"'))
+                        old_keyboard_status.close()
                 elif element['object']['text'] in data:
                     if keyboard_status['%s' % element['object']['from_id']] == 0:
                         function.write_msg(element['object']['from_id'], homework['%s' % element['object']['text']], None)
@@ -53,8 +57,9 @@ while True:
                         print('%s HomeWorkBot: введи текст' % str(d.datetime.today())[10: 19])
                         subject = element['object']['text']
                         keyboard_status['%s' % element['object']['from_id']] = 2
-                    else:
-                        None
+                        with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as old_keyboard_status:
+                            old_keyboard_status.write(str(keyboard_status).replace('\'', '\"'))
+                            old_keyboard_status.close()
                 elif element['object']['from_id'] in keyboard_status and keyboard_status['%s' % element['object']['from_id']] == 2:
                     function.homework_new_file(subject, element['object']['text'])
                     function.write_msg(element['object']['from_id'], 'значение обновлено', function.start_keyboard)
@@ -64,7 +69,6 @@ while True:
                 else:
                     function.write_msg(element['object']['from_id'], 'неизвестная команда', function.start_keyboard)
                     print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
-                     #сеня мразь
 
     except KeyError:
         if long_poll == {'failed': 2}:
