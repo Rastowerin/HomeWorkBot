@@ -6,11 +6,10 @@ import datetime as d
 
 server, key, ts = function.long_poll()
 
-with codecs.open("keyboard_status.txt", "r", "utf-8-sig") as json_data:
-    keyboard_status = json.load(json_data)
-
 while True:
     try:
+        with codecs.open("keyboard_status.txt", "r", "utf-8-sig") as json_data:
+            keyboard_status = json.load(json_data)
         homework = function.homework_file()
         data = function.homework_file()
         new_ts = function.vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
@@ -60,7 +59,7 @@ while True:
                         with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as old_keyboard_status:
                             old_keyboard_status.write(str(keyboard_status).replace('\'', '\"'))
                             old_keyboard_status.close()
-                elif element['object']['from_id'] in keyboard_status and keyboard_status['%s' % element['object']['from_id']] == 2:
+                elif keyboard_status['%s' % element['object']['from_id']] == 2:
                     function.homework_new_file(subject, element['object']['text'])
                     function.write_msg(element['object']['from_id'], 'значение обновлено', function.start_keyboard)
                     print('%s HomeWorkBot: значеие обновлено' % str(d.datetime.today())[10: 19])
