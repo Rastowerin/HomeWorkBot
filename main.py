@@ -64,6 +64,7 @@ while True:
                 else:
                     function.write_msg(element['object']['from_id'], 'неизвестная команда', function.start_keyboard)
                     print('%s HomeWorkBot: неизвестная команда' % str(d.datetime.today())[10: 19])
+                     #сеня мразь
 
     except KeyError:
         if long_poll == {'failed': 2}:
