@@ -17,11 +17,6 @@ with codecs.open("choice_keyboard.txt", "r", "utf-8-sig") as json_data:
 choice_keyboard = json.dumps(choice_keyboard, ensure_ascii=False).encode('utf-8')
 choice_keyboard = str(choice_keyboard.decode('utf-8'))
 
-with codecs.open("back_keyboard.txt", "r", "utf-8-sig") as json_data:
-    back_keyboard = json.load(json_data)
-back_keyboard = json.dumps(back_keyboard, ensure_ascii=False).encode('utf-8')
-back_keyboard = str(back_keyboard.decode('utf-8'))
-
 def control():
     while True:
         homework = homework_file()
@@ -77,6 +72,11 @@ def today():
         time = (str(str(datetime.datetime.today()).split(' ')[1].split('.')[0]))
         info = [day, time, today_schedule]
     return info
+
+def keyboard_status_save(keyboard_status):
+    with codecs.open("keyboard_status.txt", "w", "utf-8-sig") as old_keyboard_status:
+        old_keyboard_status.write(str(keyboard_status).replace('\'', '\"'))
+        old_keyboard_status.close()
 
 def long_poll():
     long_poll = vk_bot.method('groups.getLongPollServer', {'group_id': 181347142, 'lp_version': 3})
