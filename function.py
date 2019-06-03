@@ -83,6 +83,24 @@ def long_poll():
     server, key, ts = long_poll['server'], long_poll['key'], long_poll['ts']
     return server, key, ts
 
+today_schedule = {}
+today_schedule = today()[2]
+for element in today_schedule:
+    today_schedule[element] = [today_schedule[element], 0]
+
+def time_check():
+    for subject_time in today_schedule:
+        print(homework)
+        print(today_schedule)
+        print(homework[today_schedule[subject_time][0]])
+        if homework[today_schedule[subject_time][0]] != 'None' and today_schedule[subject_time][1] == 0:
+            print('test')
+            time = homework[today_schedule[subject_time]][1]
+            time = time.split(' ')[1]
+            if time.split(':')[0] > subject_time.split(':')[0] or today()[1].split(':')[0] == subject_time.split(':')[0] and today()[1].split(':')[1] > subject_time.split(':')[1]:
+                homework_new_file(today_schedule[subject_time], 'None')
+            None
+
 with codecs.open("schedule.txt", "r", "utf-8-sig") as json_data:
     day = json.load(json_data)['day']
 
